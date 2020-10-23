@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <title>Random 5 VK Friends</title>
+  </head>
+  <body>
+    Welcome! Please fill the form below:
+    <form action="" method="post">
+      {% csrf_token %}
+      {{ form|linebreaks }}
+      <input type="submit" value="OK">
+    </form>
+    <a href="https://oauth.vk.com/authorize?client_id={{ client_id }}&display=page&redirect_uri={{ host }}">
+      Or authorize with VK Oauth</a>
+  </body>
+</html>
