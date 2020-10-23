@@ -3,8 +3,6 @@ import vk_api
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from randomfive.forms import NameForm
-
 client_id = '7637878'
 client_secret = 'qw3PXN0wzJGwAbXLlRrO'
 redirect_uri = 'http://127.0.0.1:8000/auth'
@@ -22,23 +20,7 @@ def auth(request):
             html.set_cookie('randomfive', token)  # setting COOKIE with token  (logging in)
             return html
 
-        form = NameForm()
-        return render(request, 'randomfive/auth.html', {'form': form, 'client_id': client_id, 'host': redirect_uri})
-
-    if request.method == 'POST':  # post method when login\pass form filled, obtaining token with VK_api
-        form = NameForm(request.POST)
-        if form.is_valid():
-            login = form.cleaned_data['login']
-            password = form.cleaned_data['password']
-            vk = vk_api.VkApi(login, password)
-            try:
-                vk.auth()
-                token = vk.token['access_token']
-                html = HttpResponse('Password OK, redirecting<meta http-equiv="refresh" content="1;URL=/" />')
-                html.set_cookie('randomfive', token)  # setting COOKIE with token (logging in)
-                return html
-            except vk_api.BadPassword:
-                return HttpResponse("Bad Password")
+        return render(request, 'randomfive/auth.html', {'client_id': client_id, 'host': redirect_uri})
 
 
 def showfriends(request):
